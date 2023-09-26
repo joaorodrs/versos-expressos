@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Image,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-} from "@chakra-ui/react";
+import { Container, Image, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 
 import marDeMonstrosImg from "../assets/mar_de_monstros.jpg";
 import culpaEDasEstrelasImg from "../assets/a_culpa_e_das_estrelas.jpg";

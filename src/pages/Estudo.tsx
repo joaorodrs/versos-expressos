@@ -17,7 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CABINS_STATUS } from "../utils/constants";
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
 
 type CabinProps = {
   number: number;
