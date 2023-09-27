@@ -69,7 +69,11 @@ export default function Estudo() {
       </Text>
       <Text>Veja as cabines disponíveis para aluguel.</Text>
       <Grid
-        templateColumns={{ sm: "repeat(3, 1fr)", md: "repeat(5, 1fr)" }}
+        templateColumns={{
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+          lg: "repeat(5, 1fr)",
+        }}
         gap={4}
         mt={10}
       >

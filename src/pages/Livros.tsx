@@ -1,4 +1,24 @@
-import { Container, Image, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import {
+  Container,
+  Image,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useToast,
+  FormControl,
+  Input,
+  FormLabel,
+} from "@chakra-ui/react";
 
 import marDeMonstrosImg from "../assets/mar_de_monstros.jpg";
 import culpaEDasEstrelasImg from "../assets/a_culpa_e_das_estrelas.jpg";
@@ -13,9 +33,10 @@ type BookProps = {
   title: string;
   author: string;
   img: string;
+  onClick?(): void;
 };
 
-function Book({ title, author, img }: BookProps) {
+function Book({ title, author, img, onClick }: BookProps) {
   return (
     <Flex
       as="button"
@@ -25,6 +46,7 @@ function Book({ title, author, img }: BookProps) {
       transition="background-color 0.1s"
       _hover={{ bgColor: "gray.100" }}
       cursor="pointer"
+      onClick={onClick}
     >
       <Image src={img} rounded="md" />
       <Text mt={2} fontSize="lg" fontWeight="bold">
@@ -36,8 +58,86 @@ function Book({ title, author, img }: BookProps) {
 }
 
 export default function Livros() {
+  const toast = useToast();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<string | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+
+  function onReserve() {
+    setShowModal(false);
+    setSelectedBook(undefined);
+    toast({
+      title: "Livro reservado",
+      description: "O cancelamento deve ser feito até 1 dia antes da entrega.",
+      status: "success",
+      position: "top",
+    });
+  }
+
+  console.log(selectedDate);
+
   return (
     <Container maxW="800px">
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Alugar "{selectedBook}"</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody display="flex" flexDir="column">
+            <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+              <GridItem>
+                <FormControl>
+                  <FormLabel>Data de entrega</FormLabel>
+                  <Input
+                    _focus={{ borderColor: "orange.500" }}
+                    type="date"
+                    onChange={(event) => {
+                      if (!event.target.value)
+                        return setSelectedDate(undefined);
+                      setSelectedDate(new Date(event.target.value));
+                    }}
+                  />
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={2}>
+                <Text>
+                  Total:{" "}
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    minimumFractionDigits: 2,
+                  }).format(5)}
+                </Text>
+              </GridItem>
+              <GridItem colSpan={2}>
+                <Text>
+                  Renovação:{" "}
+                  {selectedDate
+                    ? new Date(
+                        selectedDate?.setDate(
+                          selectedDate?.getDate() + 2 || 0,
+                        ) || 0,
+                      ).toLocaleString("pt-BR", {
+                        dateStyle: "short",
+                      })
+                    : null}
+                </Text>
+              </GridItem>
+            </Grid>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              bgColor="#613c2a"
+              color="white"
+              _hover={{ bgColor: "#613c2a90" }}
+              onClick={onReserve}
+            >
+              Reservar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <Text fontWeight="bold" fontSize="2rem" mt={6}>
         Alugue livros!
       </Text>
@@ -63,6 +163,12 @@ export default function Livros() {
             title="Percy Jackson e os Olimpianos: O Mar de Monstros"
             author="Rick Riordan"
             img={marDeMonstrosImg}
+            onClick={() => {
+              setSelectedBook(
+                "Percy Jackson e os Olimpianos: O Mar de Monstros",
+              );
+              setShowModal(true);
+            }}
           />
         </GridItem>
         <GridItem>

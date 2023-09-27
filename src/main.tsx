@@ -8,6 +8,8 @@ import LoggedLayout from "./layouts/LoggedLayout";
 import Home from "./pages/Home";
 import Livros from "./pages/Livros";
 import Estudo from "./pages/Estudo";
+import SobreNos from "./pages/SobreNos";
+import Contato from "./pages/Contato";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,22 @@ const router = createBrowserRouter([
     element: (
       <LoggedLayout>
         <Estudo />
+      </LoggedLayout>
+    ),
+  },
+  {
+    path: "/sobre-nos",
+    element: (
+      <LoggedLayout>
+        <SobreNos />
+      </LoggedLayout>
+    ),
+  },
+  {
+    path: "/contato",
+    element: (
+      <LoggedLayout>
+        <Contato />
       </LoggedLayout>
     ),
   },
